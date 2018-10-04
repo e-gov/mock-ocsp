@@ -1,7 +1,7 @@
 # Mock OCSP responder
 
 Mock OCSP responder based on [ocspresponder](https://pypi.org/project/ocspresponder/)
-Only major change is the use of ResponderId 'by_name', instead of 'by_key'
+Only major change is the use of ResponderId 'by_name', instead of 'by_key'.
 
 Run `docker-compose up -d` to start the responder and 
 `openssl ocsp -issuer conf/issuer.crt -cert certs/141811770701420873040773020899829622874.cert.pem -url http://localhost:8080/status/ -nonce -noverify` 
