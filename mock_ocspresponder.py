@@ -14,6 +14,14 @@ OCSP_CERT = 'conf/cert.pem'
 OCSP_KEY = 'conf/key.pem'
 
 
+class CustomOCSPResponder(OCSPResponder):
+    def _route(self):
+        self._app.get('/', callback=self._handle_root)
+        self._app.get('/status/<request_data>', callback=self._handle_get)
+        self._app.post('/status/', callback=self._handle_post)
+        self._app.post('/status', callback=self._handle_post)
+
+
 def validate(serial: int) -> (CertificateStatus, Optional[datetime]):
     return (CertificateStatus.good, None)
 
@@ -27,7 +35,7 @@ def get_cert(serial: int) -> str:
         return f.read().strip()
 
 
-app = OCSPResponder(
+app = CustomOCSPResponder(
     ISSUER_CERT, OCSP_CERT, OCSP_KEY,
     validate_func=validate,
     cert_retrieve_func=get_cert,
