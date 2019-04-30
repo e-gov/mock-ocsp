@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  mock-ocsp:
+    build: .
+    command: "mock_ocspresponder.wsgi --processes 50 --threads 10"
+    volumes:
+      - ./certs:/app/certs
+      - ./conf:/app/conf
+    ports:
+    - "0.0.0.0:8080:80"
+    restart: always
